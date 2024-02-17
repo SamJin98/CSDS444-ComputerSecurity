@@ -2,10 +2,12 @@ import argparse
 import pygame
 from enum import Enum, auto
 
+
 class LightState(Enum):
     GREEN = auto()
     YELLOW = auto()
     RED = auto()
+
 
 class TrafficLight:
     def __init__(self, initial_state: LightState):
@@ -23,6 +25,7 @@ class TrafficLight:
     def is_red(self):
         return self.state == LightState.RED
 
+
 class PedestrianLight:
     def __init__(self, walk: bool, stop: bool):
         self.walk = walk
@@ -38,6 +41,7 @@ class PedestrianLight:
 
     def get_walk(self):
         return self.walk
+
 
 class Pedestrian:
     def __init__(self, x, y, direction):
@@ -75,12 +79,14 @@ class Pedestrian:
 
             # Reset position and crossing flag near original position
             if (self.direction == "vertical" and abs(self.y - self.start_y) < 5) or \
-                    (self.direction == "horizontal" and abs(self.x - self.start_x) < 5):
+                (self.direction == "horizontal" and abs(self.x - self.start_x) < 5):
                 self.x, self.y = self.start_x, self.start_y
                 self.crossing = False
 
+
 class TrafficSystem:
-    def __init__(self, north_light, south_light, east_light, west_light, north_cross, south_cross, east_cross, west_cross, red_time, green_time, yellow_time, pedestrians):
+    def __init__(self, north_light, south_light, east_light, west_light, north_cross, south_cross, east_cross,
+                 west_cross, red_time, green_time, yellow_time, pedestrians):
         self.north_light = north_light
         self.south_light = south_light
         self.east_light = east_light
@@ -93,6 +99,7 @@ class TrafficSystem:
         self.green_time = green_time
         self.yellow_time = yellow_time
         self.pedestrians = pedestrians
+
 
 def initialize_traffic_system(red_time, green_time, yellow_time):
     # Initialize traffic and pedestrian lights
@@ -109,15 +116,17 @@ def initialize_traffic_system(red_time, green_time, yellow_time):
     pedestrians = []
     # North to South and South to North
     for i in range(4):
-        pedestrians.append(Pedestrian(280, 10 + i*40, "vertical"))
-        pedestrians.append(Pedestrian(320, 590 - i*40, "vertical"))
+        pedestrians.append(Pedestrian(280, 10 + i * 40, "vertical"))
+        pedestrians.append(Pedestrian(320, 590 - i * 40, "vertical"))
     # East to West and West to East
     for i in range(4):
-        pedestrians.append(Pedestrian(10 + i*40, 280, "horizontal"))
-        pedestrians.append(Pedestrian(590 - i*40, 320, "horizontal"))
+        pedestrians.append(Pedestrian(10 + i * 40, 280, "horizontal"))
+        pedestrians.append(Pedestrian(590 - i * 40, 320, "horizontal"))
 
-    traffic_system = TrafficSystem(north_light, south_light, east_light, west_light, north_cross, south_cross, east_cross, west_cross, red_time, green_time, yellow_time, pedestrians)
+    traffic_system = TrafficSystem(north_light, south_light, east_light, west_light, north_cross, south_cross,
+                                   east_cross, west_cross, red_time, green_time, yellow_time, pedestrians)
     return traffic_system
+
 
 def update_traffic_lights(cycle_time, traffic_system):
     if cycle_time < traffic_system.red_time:
@@ -145,6 +154,7 @@ def update_traffic_lights(cycle_time, traffic_system):
         traffic_system.north_light.set_state(LightState.YELLOW)
         traffic_system.south_light.set_state(LightState.YELLOW)
 
+
 def draw_traffic_lights(screen, traffic_system):
     RED = (255, 0, 0)
     YELLOW = (255, 255, 0)
@@ -155,7 +165,8 @@ def draw_traffic_lights(screen, traffic_system):
     # Distance between lights
     offset = 30
 
-    for direction, light in [('north', traffic_system.north_light), ('south', traffic_system.south_light), ('east', traffic_system.east_light), ('west', traffic_system.west_light)]:
+    for direction, light in [('north', traffic_system.north_light), ('south', traffic_system.south_light),
+                             ('east', traffic_system.east_light), ('west', traffic_system.west_light)]:
         # Position adjustments for each circle to be drawn vertically aligned
         red_pos = (light_positions[direction][0], light_positions[direction][1] - offset)
         yellow_pos = light_positions[direction]
@@ -171,15 +182,121 @@ def draw_traffic_lights(screen, traffic_system):
         pygame.draw.circle(screen, yellow_color, yellow_pos, 10)
         pygame.draw.circle(screen, green_color, green_pos, 10)
 
+
+def draw_pedastrian_traffic_lights(screen, traffic_system):
+    RED = (255, 0, 0)
+    # YELLOW = (255, 255, 0)
+    GREEN = (0, 255, 0)
+    GRAY = (192, 192, 192)  # Inactive light color
+    light_positions = {'north': [(190, 150), (410, 150)], 'south': [(190, 450), (410, 450)],
+                       'east': [(450, 190), (450, 410)], 'west': [(150, 190), (150, 410)]}
+
+    # Distance between pd traffic lights
+    distance = 5
+
+    for direction, light in [('north', traffic_system.north_light), ('south', traffic_system.south_light),
+                             ('west', traffic_system.west_light), ('east', traffic_system.east_light)]:
+
+        # Determine the active light color
+        red_color = GREEN if light.is_red() else GRAY
+        green_color = RED if light.is_green() else GRAY
+
+        if direction == 'north' or 'south':
+
+            red_pos = (light_positions[direction][0][0], light_positions[direction][0][1] - distance)
+            green_pos = (light_positions[direction][0][0], light_positions[direction][0][1] + distance)
+
+            red_pos2 = (light_positions[direction][1][0], light_positions[direction][1][1] - distance)
+            green_pos2 = (light_positions[direction][1][0], light_positions[direction][1][1] + distance)
+
+            # Draw the traffic light circles (Both 2 sides)
+            pygame.draw.circle(screen, red_color, red_pos, 5)
+            pygame.draw.circle(screen, green_color, green_pos, 5)
+
+            pygame.draw.circle(screen, red_color, red_pos2, 5)
+            pygame.draw.circle(screen, green_color, green_pos2, 5)
+
+        elif direction == 'west' or 'east':
+
+            red_pos_we = (light_positions[direction][0][0] - distance, light_positions[direction][0][1])
+            green_pos_we = (light_positions[direction][0][0] + distance, light_positions[direction][0][1])
+
+            red_pos2_we = (light_positions[direction][1][0] - distance, light_positions[direction][1][1])
+            green_pos2_we = (light_positions[direction][1][0] + distance, light_positions[direction][1][1])
+
+            # Draw the traffic light circles (Both 2 sides)
+            pygame.draw.circle(screen, red_color, red_pos_we, 5)
+            pygame.draw.circle(screen, green_color, green_pos_we, 5)
+
+            pygame.draw.circle(screen, red_color, red_pos2_we, 5)
+            pygame.draw.circle(screen, green_color, green_pos2_we, 5)
+
+
 def draw_roads(screen):
     road_color = (50, 50, 50)  # Dark gray color for roads
     pygame.draw.rect(screen, road_color, (50, 200, 500, 200))  # Wider Horizontal road
     pygame.draw.rect(screen, road_color, (200, 50, 200, 500))  # Wider Vertical road
 
     # Draw road markings
-    marking_color = (255, 255, 255)  # White color for road markings
+    marking_color = (124, 252, 0)  # White color for road markings
     pygame.draw.line(screen, marking_color, (50, 300), (550, 300), 5)  # Horizontal marking
     pygame.draw.line(screen, marking_color, (300, 50), (300, 550), 5)  # Vertical marking
+
+    # Draw crosswalks
+    crosswalk_color = (245, 245, 245)  # Grey color for crosswalk marking
+
+    # Part 1 (Left)
+    pygame.draw.rect(screen, crosswalk_color, (150, 210, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 230, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 250, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 270, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 290, 50, 10))
+
+    pygame.draw.rect(screen, crosswalk_color, (150, 310, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 330, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 350, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 370, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (150, 390, 50, 8))
+
+    # Part 2 (Up)
+    pygame.draw.rect(screen, crosswalk_color, (210, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (230, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (250, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (270, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (290, 150, 10, 50))
+
+    pygame.draw.rect(screen, crosswalk_color, (310, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (330, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (350, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (370, 150, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (390, 150, 8, 50))
+
+    # Part 3 (Right)
+    pygame.draw.rect(screen, crosswalk_color, (400, 210, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 230, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 250, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 270, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 290, 50, 10))
+
+    pygame.draw.rect(screen, crosswalk_color, (400, 310, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 330, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 350, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 370, 50, 10))
+    pygame.draw.rect(screen, crosswalk_color, (400, 390, 50, 8))
+
+    # Part 4 (Down)
+    pygame.draw.rect(screen, crosswalk_color, (210, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (230, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (250, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (270, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (290, 400, 10, 50))
+
+    pygame.draw.rect(screen, crosswalk_color, (310, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (330, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (350, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (370, 400, 10, 50))
+    pygame.draw.rect(screen, crosswalk_color, (390, 400, 8, 50))
+
 
 def draw_pedestrian_states(screen, traffic_system):
     font = pygame.font.Font(None, 24)
@@ -194,6 +311,7 @@ def draw_pedestrian_states(screen, traffic_system):
     for direction, text in action_texts.items():
         text_surf = font.render(text, True, (255, 255, 255))
         screen.blit(text_surf, positions[direction])
+
 
 def main(red_time, green_time, yellow_time):
     pygame.init()
@@ -220,10 +338,13 @@ def main(red_time, green_time, yellow_time):
         draw_traffic_lights(screen, traffic_system)
         draw_pedestrian_states(screen, traffic_system)  # Replace draw_pedestrians call
 
+        draw_pedastrian_traffic_lights(screen, traffic_system)
+
         pygame.display.flip()
         clock.tick(60)  # FPS
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Simulate a traffic light system with pedestrian movement.")
