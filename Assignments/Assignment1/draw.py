@@ -56,20 +56,28 @@ def draw_vehicle_straight_and_right_turning_traffic_lights(screen, traffic_syste
         straight_yellow_color = YELLOW if straight_light.is_yellow() else GRAY
         straight_green_color = GREEN if straight_light.is_green() else GRAY
 
-        if straight_red_color == RED:
-            right_turning_color = RED
-        elif straight_yellow_color == YELLOW:
-            right_turning_color = YELLOW
-        elif straight_green_color == GREEN:
-            right_turning_color = GREEN
-        else:
-            right_turning_color = GRAY
+        # if straight_red_color == RED:
+        #     right_turning_color = RED
+        # elif straight_yellow_color == YELLOW:
+        #     right_turning_color = YELLOW
+        # elif straight_green_color == GREEN:
+        #     right_turning_color = GREEN
+        # else:
+        #     right_turning_color = GRAY
+        # if straight_red_color == RED:
+        #     right_turning_color = GREEN
+        # elif straight_yellow_color == YELLOW:
+        #     right_turning_color = GREEN
+        # elif straight_green_color == GREEN:
+        #     right_turning_color = GREEN
+        # else:
+        #     right_turning_color = GREEN
 
         pygame.draw.circle(screen, straight_red_color, red_straight_pos, 10)
         pygame.draw.circle(screen, straight_yellow_color, yellow_straight_pos, 10)
         pygame.draw.circle(screen, straight_green_color, green_straight_pos, 10)
 
-        pygame.draw.circle(screen, right_turning_color, right_turning_pos, 10)
+        # pygame.draw.circle(screen, right_turning_color, right_turning_pos, 10)
 
 
 def draw_vehicle_left_turning_traffic_lights(screen, traffic_system):
@@ -205,23 +213,23 @@ def draw_backgrounds(screen):
 
 def draw_turning_lights_text(screen):
     font = pygame.font.Font(None, 24)
-    north_right_turing_text = font.render('RTurn', True, (255, 255, 255))
+    # north_right_turing_text = font.render('RTurn', True, (255, 255, 255))
     south_right_turing_text = font.render('LTurn', True, (255, 255, 255))
-    east_right_turing_text = font.render('RTurn', True, (255, 255, 255))
+    # east_right_turing_text = font.render('RTurn', True, (255, 255, 255))
     west_right_turing_text = font.render('LTurn', True, (255, 255, 255))
-    screen.blit(north_right_turing_text, (335, 70))
+    # screen.blit(north_right_turing_text, (335, 70))
     screen.blit(south_right_turing_text, (338, 515))
-    screen.blit(east_right_turing_text, (478, 375))
+    # screen.blit(east_right_turing_text, (478, 375))
     screen.blit(west_right_turing_text, (78, 375))
 
     north_left_turing_text = font.render('LTurn', True, (255, 255, 255))
-    south_left_turing_text = font.render('RTurn', True, (255, 255, 255))
+    # south_left_turing_text = font.render('RTurn', True, (255, 255, 255))
     east_left_turing_text = font.render('LTurn', True, (255, 255, 255))
-    west_left_turing_text = font.render('RTurn', True, (255, 255, 255))
+    # west_left_turing_text = font.render('RTurn', True, (255, 255, 255))
     screen.blit(north_left_turing_text, (219, 70))
-    screen.blit(south_left_turing_text, (216, 515))
+    # screen.blit(south_left_turing_text, (216, 515))
     screen.blit(east_left_turing_text, (480, 211))
-    screen.blit(west_left_turing_text, (80, 211))
+    # screen.blit(west_left_turing_text, (80, 211))
 
 
 def draw_description_text(screen):

@@ -77,8 +77,8 @@ def update_traffic_lights(_cycle_time, _traffic_system):
         _traffic_system.north_left_turning_light.set_state(LightStates.RED)
         _traffic_system.south_left_turning_light.set_state(LightStates.RED)
 
-        _traffic_system.north_pedestrian_light.set_state(LightStates.GREEN)
-        _traffic_system.south_pedestrian_light.set_state(LightStates.GREEN)
+        _traffic_system.north_pedestrian_light.set_state(LightStates.RED)
+        _traffic_system.south_pedestrian_light.set_state(LightStates.RED)
         _traffic_system.west_pedestrian_light.set_state(LightStates.RED)
         _traffic_system.east_pedestrian_light.set_state(LightStates.RED)
     elif (_cycle_time < _traffic_system.green_time + _traffic_system.yellow_time + _traffic_system.green_time +
@@ -93,8 +93,8 @@ def update_traffic_lights(_cycle_time, _traffic_system):
         _traffic_system.north_left_turning_light.set_state(LightStates.RED)
         _traffic_system.south_left_turning_light.set_state(LightStates.RED)
 
-        _traffic_system.north_pedestrian_light.set_state(LightStates.GREEN)
-        _traffic_system.south_pedestrian_light.set_state(LightStates.GREEN)
+        _traffic_system.north_pedestrian_light.set_state(LightStates.RED)
+        _traffic_system.south_pedestrian_light.set_state(LightStates.RED)
         _traffic_system.west_pedestrian_light.set_state(LightStates.RED)
         _traffic_system.east_pedestrian_light.set_state(LightStates.RED)
     elif (_cycle_time < _traffic_system.green_time + _traffic_system.yellow_time + _traffic_system.green_time +
@@ -144,8 +144,8 @@ def update_traffic_lights(_cycle_time, _traffic_system):
 
         _traffic_system.north_pedestrian_light.set_state(LightStates.RED)
         _traffic_system.south_pedestrian_light.set_state(LightStates.RED)
-        _traffic_system.west_pedestrian_light.set_state(LightStates.GREEN)
-        _traffic_system.east_pedestrian_light.set_state(LightStates.GREEN)
+        _traffic_system.west_pedestrian_light.set_state(LightStates.RED)
+        _traffic_system.east_pedestrian_light.set_state(LightStates.RED)
     elif (_cycle_time < _traffic_system.green_time + _traffic_system.yellow_time + _traffic_system.green_time +
           _traffic_system.yellow_time + _traffic_system.green_time + _traffic_system.yellow_time +
           _traffic_system.green_time + _traffic_system.yellow_time):
@@ -161,8 +161,8 @@ def update_traffic_lights(_cycle_time, _traffic_system):
 
         _traffic_system.north_pedestrian_light.set_state(LightStates.RED)
         _traffic_system.south_pedestrian_light.set_state(LightStates.RED)
-        _traffic_system.west_pedestrian_light.set_state(LightStates.GREEN)
-        _traffic_system.east_pedestrian_light.set_state(LightStates.GREEN)
+        _traffic_system.west_pedestrian_light.set_state(LightStates.RED)
+        _traffic_system.east_pedestrian_light.set_state(LightStates.RED)
 
 
 if __name__ == "__main__":
