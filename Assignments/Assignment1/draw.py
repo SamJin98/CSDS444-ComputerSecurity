@@ -26,31 +26,49 @@ def draw_vehicle_straight_and_right_turning_traffic_lights(screen, traffic_syste
                                       ('east', traffic_system.east_straight_light)]:
 
         if direction == 'north' or direction == 'south':
-            red_straight_pos = (vehicle_traffic_light_pos_base[direction][0] - vehicle_traffic_light_offset,
-                                vehicle_traffic_light_pos_base[direction][1])
-            yellow_straight_pos = vehicle_traffic_light_pos_base[direction]
-            green_straight_pos = (vehicle_traffic_light_pos_base[direction][0] + vehicle_traffic_light_offset,
-                                  vehicle_traffic_light_pos_base[direction][1])
+            if direction == 'north':
+                red_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                    vehicle_traffic_light_pos_base[direction][1])
+                yellow_straight_pos = (vehicle_traffic_light_pos_base[direction][0] + vehicle_traffic_light_offset,
+                                       vehicle_traffic_light_pos_base[direction][1])
+                green_straight_pos = (vehicle_traffic_light_pos_base[direction][0] + vehicle_traffic_light_offset * 2,
+                                      vehicle_traffic_light_pos_base[direction][1])
+            if direction == 'south':
+                red_straight_pos = (vehicle_traffic_light_pos_base[direction][0] - vehicle_traffic_light_offset * 2,
+                                    vehicle_traffic_light_pos_base[direction][1])
+                yellow_straight_pos = (vehicle_traffic_light_pos_base[direction][0] - vehicle_traffic_light_offset,
+                                       vehicle_traffic_light_pos_base[direction][1])
+                green_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                      vehicle_traffic_light_pos_base[direction][1])
 
-            right_turning_pos = (vehicle_traffic_light_pos_base[direction][0] + vehicle_traffic_light_offset * 2,
-                                 vehicle_traffic_light_pos_base[direction][1])
+            # right_turning_pos = (vehicle_traffic_light_pos_base[direction][0] + vehicle_traffic_light_offset * 2,
+            #                      vehicle_traffic_light_pos_base[direction][1])
             # if direction == 'south':
             #     print(right_turning_pos)  # (360, 500)
-            if direction == 'south':
-                right_turning_pos = (240, 500)
+            # if direction == 'south':
+            #     right_turning_pos = (240, 500)
         else:
-            red_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
-                                vehicle_traffic_light_pos_base[direction][1] - vehicle_traffic_light_offset)
-            yellow_straight_pos = vehicle_traffic_light_pos_base[direction]
-            green_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
-                                  vehicle_traffic_light_pos_base[direction][1] + vehicle_traffic_light_offset)
+            if direction == 'west':
+                red_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                    vehicle_traffic_light_pos_base[direction][1])
+                yellow_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                       vehicle_traffic_light_pos_base[direction][1] + vehicle_traffic_light_offset)
+                green_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                      vehicle_traffic_light_pos_base[direction][1] + vehicle_traffic_light_offset * 2)
+            if direction == 'east':
+                red_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                    vehicle_traffic_light_pos_base[direction][1] - vehicle_traffic_light_offset * 2)
+                yellow_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                       vehicle_traffic_light_pos_base[direction][1] - vehicle_traffic_light_offset)
+                green_straight_pos = (vehicle_traffic_light_pos_base[direction][0],
+                                      vehicle_traffic_light_pos_base[direction][1])
 
-            right_turning_pos = (vehicle_traffic_light_pos_base[direction][0],
-                                 vehicle_traffic_light_pos_base[direction][1] + vehicle_traffic_light_offset * 2)
+            # right_turning_pos = (vehicle_traffic_light_pos_base[direction][0],
+            #                      vehicle_traffic_light_pos_base[direction][1] + vehicle_traffic_light_offset * 2)
             # if direction == 'east':
             #     print(right_turning_pos)  # (100, 360)
-            if direction == 'east':
-                right_turning_pos = (100, 240)
+            # if direction == 'east':
+            #     right_turning_pos = (100, 240)
 
         straight_red_color = RED if straight_light.is_red() else GRAY
         straight_yellow_color = YELLOW if straight_light.is_yellow() else GRAY
@@ -222,7 +240,7 @@ def draw_turning_lights_text(screen):
     # screen.blit(east_right_turing_text, (478, 375))
     screen.blit(west_right_turing_text, (78, 375))
 
-    north_left_turing_text = font.render('LTurn', True, (255, 255, 255))
+    north_left_turing_text = font.render('LTurn        R     Y    G', True, (255, 255, 255))
     # south_left_turing_text = font.render('RTurn', True, (255, 255, 255))
     east_left_turing_text = font.render('LTurn', True, (255, 255, 255))
     # west_left_turing_text = font.render('RTurn', True, (255, 255, 255))
@@ -231,29 +249,47 @@ def draw_turning_lights_text(screen):
     screen.blit(east_left_turing_text, (480, 211))
     # screen.blit(west_left_turing_text, (80, 211))
 
+    south_RGB_text = font.render('R     Y    G', True, (255, 255, 255))
+    screen.blit(south_RGB_text, (233, 515))
+
+    west_R_text = font.render('R', True, (255, 255, 255))
+    screen.blit(west_R_text, (73, 233))
+
+    west_Y_text = font.render('Y', True, (255, 255, 255))
+    screen.blit(west_Y_text, (73, 264))
+
+    west_G_text = font.render('G', True, (255, 255, 255))
+    screen.blit(west_G_text, (73, 294))
+
+    east_R_text = font.render('R', True, (255, 255, 255))
+    screen.blit(east_R_text, (472, 293))
+
+    east_Y_text = font.render('Y', True, (255, 255, 255))
+    screen.blit(east_Y_text, (472, 324))
+
+    east_G_text = font.render('G', True, (255, 255, 255))
+    screen.blit(east_G_text, (472, 354))
+
 
 def draw_description_text(screen):
     font = pygame.font.Font(None, 20)
     description_text1 = font.render(
-        'This traffic control system includes straight ahead light (red, green and yellow colors ',
+        'This traffic control system includes through-pass light (red, green and yellow colors ',
         True, (0, 0, 0))
     description_text2 = font.render(
-        'separated), left turn light (three colors in one), right turn light (three colors in one) ',
+        'separated), left turn light (three colors in one), and pedestrian light (red and green ',
         True, (0, 0, 0))
     description_text3 = font.render(
-        'and pedestrian light (red and green colors separated). The straight ahead light and the ',
-        True, (0, 0, 0))
-    description_text4 = font.render(
-        'right turn light are tied together, which means that you can turn right when you can go ',
+        'colors separated). ',
         True, (0, 0, 0))
     description_text5 = font.render(
-        'straight ahead. The left turn light is separated, and a left turn can only be made when ',
+        'A right turn can be made at any time. A left turn can only be made when the through-pass ',
         True, (0, 0, 0))
     description_text6 = font.render(
-        'the straight ahead light (with the right turn light) has ended. When the above steps ',
+        'light has ended, and left turn light turns green. When the above steps have been performed, ',
         True, (0, 0, 0))
     description_text7 = font.render(
-        'have been performed, yield the right-of-way to the other roadway at the intersection.',
+        'yield the right-of-way to the other roadway at the intersection.',
         True, (0, 0, 0))
     description_text8 = font.render(
         'Yunlai Zhou,  Ruilin Jin,  Sixu Li',
@@ -261,9 +297,9 @@ def draw_description_text(screen):
     screen.blit(description_text1, (5, 600))
     screen.blit(description_text2, (5, 620))
     screen.blit(description_text3, (5, 640))
-    screen.blit(description_text4, (5, 660))
     screen.blit(description_text5, (5, 680))
     screen.blit(description_text6, (5, 700))
     screen.blit(description_text7, (5, 720))
     screen.blit(description_text8, (5, 760))
+
 

@@ -48,3 +48,4 @@ class TrafficSystem:
         self.green_time = green_time
         self.yellow_time = yellow_time
 
+
